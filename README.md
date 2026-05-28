@@ -23,6 +23,14 @@ My current goal is to build practical familiarity with:
 
 The longer-term direction is to implement and study small software experiments inspired by the QEC scenarios discussed in Nathan Lacroix's PhD thesis, *Quantum Error Correction with Superconducting Circuits*.
 
+# 00 Stim Minimal
+
+A first minimal experiment with Stim.
+
+This script generates a small noisy rotated surface-code memory circuit, samples detector events and logical observables, and prints a simple summary of what happened in each shot.
+
+The purpose is to understand Stim’s basic workflow before adding decoding, visualization, or more advanced QEC experiments.
+
 ## Reference Material
 
 This learning project is partly inspired by selected scenarios from:

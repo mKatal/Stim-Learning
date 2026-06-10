@@ -1,1 +1,4 @@
 stim
+numpy
+matplotlib
+pymatching

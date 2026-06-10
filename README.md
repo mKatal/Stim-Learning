@@ -31,6 +31,66 @@ This script generates a small noisy rotated surface-code memory circuit, samples
 
 The purpose is to understand Stim’s basic workflow before adding decoding, visualization, or more advanced QEC experiments.
 
+# 01 Detector Sampling Sweep
+
+This workflow focuses on detector-event statistics before introducing decoding.
+
+The script runs automated Stim simulations for different surface-code parameters and collects basic statistics about detector events and logical observable flips. It is intended to build intuition for how noisy QEC circuits behave before asking a decoder to interpret the syndrome data.
+
+For each configuration, the script records quantities such as:
+
+* number of qubits,
+* number of detectors,
+* total detector events,
+* average detector events per shot,
+* logical flip rate.
+
+The purpose of this step is to understand the relationship between physical noise, syndrome activity, and logical observable flips.
+
+No decoder is used in this workflow. Stim only generates the noisy samples and reports the detector events and logical observables. This keeps the experiment focused on understanding what Stim produces directly.
+
+# 02 PyMatching Minimal
+
+This is the first minimal decoding experiment in the repository.
+
+The script generates a small noisy rotated surface-code memory circuit using Stim, converts the circuit into a detector error model, and builds a PyMatching decoder from that model.
+
+Stim samples detector events and true logical observable flips. PyMatching receives only the detector events and predicts the logical observable flips. The script then compares PyMatching’s predictions with Stim’s hidden ground truth.
+
+This introduces the basic decoding pipeline:
+
+```text
+Stim circuit
+    → detector error model
+    → PyMatching decoder
+    → predicted logical observables
+    → comparison with true logical observables
+```
+
+The key idea is that the detector events are the information available to the decoder, while the true logical observables are only available because this is a simulation.
+
+This script is intentionally small and direct. Its purpose is to make the decoding workflow understandable before moving on to parameter sweeps, visualization, or custom decoder experiments.
+
+# 03 Decoding Sweep
+
+This workflow extends the basic PyMatching example into an automated decoding experiment.
+
+The script generates noisy rotated surface-code memory circuits with different distances, syndrome-extraction rounds, and physical noise values. For each configuration, Stim samples detector events and true logical observables. PyMatching then decodes the detector events and predicts the logical observable flips.
+
+The main quantity of interest is the **decoder failure rate**, which measures how often PyMatching’s prediction disagrees with Stim’s hidden ground truth.
+
+This step is useful for building intuition about how decoding performance changes with:
+
+* physical noise probability,
+* code distance,
+* number of syndrome-extraction rounds,
+* average number of detector events per shot.
+
+The script also saves the collected sweep data as a CSV file and creates simple plots for visual inspection.
+
+At this stage, PyMatching is used as a baseline decoder. The goal is not yet to implement a custom decoder, but to understand the standard Stim → detector error model → PyMatching workflow.
+
+
 ## Reference Material
 
 This learning project is partly inspired by selected scenarios from:
